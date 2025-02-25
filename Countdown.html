@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinite Love Countdown</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            color: white;
+        }
+        nav {
+            background: rgba(255, 105, 180, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        #countdown {
+            font-size: 48px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff69b4;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ff1493;
+        }
+        .warning-text {
+            margin-top: 20px;
+            font-size: 30px;
+            font-weight: bold;
+            font-style: italic;
+            color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="home.html">Home</a>
+        <a href="story.html">Our Story</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="love_notes.html">Love Notes</a>
+        <a href="countdown.html">Countdown</a>
+    </nav>
+    
+    <h2>Infinite Love Countdown</h2>
+    <p>Our love is timeless and forever!</p>
+    
+    <p class="warning-text">Don't start what you can't finish</p>
+    
+    <div id="countdown">00:00:00</div>
+    <button id="start-button">Start Countdown</button>
+
+    <script>
+        let interval;
+        let startTime = localStorage.getItem("countdownStart");
+        let isRunning = !!startTime;
+        
+        if (!startTime) {
+            startTime = Date.now();
+            localStorage.setItem("countdownStart", startTime);
+        }
+        
+        function updateCountdown() {
+            let elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+            let hours = Math.floor(elapsedTime / 3600);
+            let minutes = Math.floor((elapsedTime % 3600) / 60);
+            let seconds = elapsedTime % 60;
+            
+            document.getElementById("countdown").textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        if (isRunning) {
+            interval = setInterval(updateCountdown, 1000);
+        }
+        
+        document.getElementById("start-button").addEventListener("click", function() {
+            if (!isRunning) {
+                startTime = Date.now();
+                localStorage.setItem("countdownStart", startTime);
+                interval = setInterval(updateCountdown, 1000);
+                isRunning = true;
+                this.style.display = "none";
+            }
+        });
+    </script>
+</body>
+</html>
